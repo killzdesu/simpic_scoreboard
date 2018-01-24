@@ -1,0 +1,187 @@
+﻿<html>
+  <head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Mahidol flag</title>
+    <meta name="description" content="">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.5.0/croppie.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.16/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="http://backbonejs.org/backbone-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.5.0/croppie.min.js"></script>
+    <style>
+      #crop {
+        width: 450px;
+        height: 510px;
+      }
+      .croppie-container {
+        padding: 40px 0;
+      }
+      .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">สร้างรูปโปรไฟล์เนื่องในวันมหิดล ประจำปี 2560</h4>
+          </div>
+          <form id="uploadForm">
+            <div class="modal-body">
+              <!-- <p>Select your picture</p> -->
+              <h4>ขอเชิญทุกท่าน ร่วมกันตั้งคำบรรยายใต้ภาพดังนี้</h4>
+              <br>
+"วันมหิดล" 24 กันยายน<br>
+ขอเชิญร่วมสืบสานพระราชปณิธานตามรอยพระบาท “สมเด็จพระมหิตลาธิเบศร อดุลยเดชวิกรม พระบรมราชชนก” พระบิดาแห่งการแพทย์ไทย 
+ด้วยการบริจาคเพื่อช่วยเหลือผู้ป่วยด้อยโอกาส โรงพยาบาลศิริราช <br><br>
+
+สามารถบริจาคได้ตามช่องทางดังนี้<br>
+:: การออกรับบริจาคพร้อมมอบ"ธง"วันมหิดล โดยคณะนักศึกษา มหาวิทยาลัยมหิดล ตามสถานที่ต่างๆ ทั้งในกรุงเทพฯ และต่างจังหวัด<br>
+:: ศิริราชมูลนิธิ ตึกมหิดลบำเพ็ญชั้น 1 โทร 0 2419 7658-60<br>
+<br>
+สามารถติดตามข่าวสารและช่องทางบริจาคเงินเพิ่มเติมได้ที่ <a href="https://www.facebook.com/sirirajmahidolday/">https://www.facebook.com/sirirajmahidolday/</a>
+<br><br>              
+<label class="control-label" for="uploadInput">เลือกรูปที่จะใช้</label>
+              <input type="file" id="uploadInput">
+              <small>*หมายเหตุ: ขอความร่วมมือใช้รูปที่สุภาพ ความยาวประมาณครึ่งตัว</small>;
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary"> ต่อไป</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <div class="modal fade" id="edoneModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">ขอเชิญทุกท่าน ร่วมกันตั้งคำบรรยายใต้ภาพดังนี้</h4>
+          </div>
+          <div class="modal-body">
+          "วันมหิดล" 24 กันยายน<br>
+ขอเชิญร่วมสืบสานพระราชปณิธานตามรอยพระบาท “สมเด็จพระมหิตลาธิเบศร อดุลยเดชวิกรม พระบรมราชชนก” พระบิดาแห่งการแพทย์ไทย 
+ด้วยการบริจาคเพื่อช่วยเหลือผู้ป่วยด้อยโอกาส โรงพยาบาลศิริราช <br><br>
+
+สามารถบริจาคได้ตามช่องทางดังนี้<br>
+:: การออกรับบริจาคพร้อมมอบ"ธง"วันมหิดล โดยคณะนักศึกษา มหาวิทยาลัยมหิดล ตามสถานที่ต่างๆ ทั้งในกรุงเทพฯ และต่างจังหวัด<br>
+:: ศิริราชมูลนิธิ ตึกมหิดลบำเพ็ญชั้น 1 โทร 0 2419 7658-60<br>
+<br>
+สามารถติดตามข่าวสารและช่องทางบริจาคเงินเพิ่มเติมได้ที่ <a href="https://www.facebook.com/sirirajmahidolday/">https://www.facebook.com/sirirajmahidolday/</a>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <center id="loading" ><br><br><div class="loader"> LOADING </div></center>
+    <style type="text/css">
+      .loader {
+          border: 16px solid #f3f3f3; /* Light grey */
+          border-top: 16px solid #3498db; /* Blue */
+          border-radius: 50%;
+          width: 120px;
+          height: 120px;
+          animation: spin 2s linear infinite;
+      }
+      @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+      }
+    </style>
+    <div class="container">
+      <br>
+      <div class="row" id="cropRow">
+        <h3 class="text-center">ปรับขนาดรูป</h3>
+        <div class="row">
+          <div class="col-lg-6 col-lg-offset-3">
+            <div id="crop"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-md-offset-3">
+            <button class="btn btn-default" id="tLeft">หมุนซ้าย</button>
+            <button class="btn btn-default" id="tRight">หมุนขวา</button>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary" id="cropButton">ต่อไป</button>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="display:none;" id="row">
+        <h3 class="text-center">เลือกรูปแบบกรอบ </h3>
+        <div class="row">
+          <div class="col-lg-6 col-lg-offset-3 col-sm-offset-2 col-sm-10">
+            <canvas id="c" width="450" height="450" style="border:1px solid #c3c3c3;">
+              Browser ของคุณไม่รองรับ กรุณาลองเปลี่ยน Browser
+            </canvas>
+          </div>
+          <div class="col-sm-3">
+            <a href="#" id="st1"><input id="r1" type="radio" name="g1" checked>
+              <label for="r1">รูปแบบ 1<br>
+              <img src="./border.png" width="200"height="200"/> </label>
+            </input></a><br>
+            <a href="#" id="st2"><input id="r2" type="radio" name="g1">
+              <label for="r2">รูปแบบ 2<br>
+              <img src="./border2.png" width="200"height="200"/> </label>
+            </input></a><br>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+          <div class="col-xs-offset-3 col-xs-6">
+          </div>
+        </div>
+        <h4 class="row">
+          <center>
+        รอซักครู่หากกรอบไม่ปรากฏ<br><br>
+        </center>
+        </h4>
+        <div class="row">
+          
+          <div class="col-xs-offset-3 col-xs-6">
+            <!-- <button class="btn btn-default" type="button" id="logo" data-toggle="button" aria-pressed="false" autocomplete="off">
+              Add logo
+            </button> -->
+            <a href="#" class="btn btn-primary" id="dlpic" download="mahidolday.jpg">
+              ต่อไป
+            </a>
+            <a href="#" class="btn btn-primary" id="openpic">
+              ต่อไป
+            </a>
+            <a href="#" id="reload" class="btn">เปลี่ยนรูปที่ต้องการใช้ใหม่</a>
+          </div>
+        </div>
+        <div class="row" style="display: none;" id="doneRow">
+          <div class="col-xs-offset-3 col-xs-6" id="doneEl">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./jui.js"></script>
+    <script>
+    
+</script>
+  <footer style="color:lightsteelblue; padding-top:50px;">
+  <!-- Siriraj hospital 2017(c) coded by Jui -->
+
+  </footer>  
+  </body>
+</html>

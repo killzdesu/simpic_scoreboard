@@ -1,0 +1,7 @@
+.container {
+    display: grid;
+    grid-template-columns: auto 20%;
+    grid-template-areas: 
+    ".console"
+    ".score";
+}

@@ -1,0 +1,139 @@
+﻿<html>
+  <head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Mahidol flag</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.5.0/croppie.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.16/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script src="http://backbonejs.org/backbone-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.5.0/croppie.min.js"></script>
+    <style>
+      #crop {
+        width: 450px;
+        height: 510px;
+      }
+      .croppie-container {
+        padding: 40px 0;
+      }
+      .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Upload Image</h4>
+          </div>
+          <form id="uploadForm">
+            <div class="modal-body">
+              <!-- <p>Select your picture</p> -->
+              <label class="control-label" for="uploadInput">Select File</label>
+              <input type="file" id="uploadInput">
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+          </form>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div id="loading">Loading</div>
+    <div class="container">
+      <br>
+      <div class="row" id="cropRow">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div id="crop"></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-md-offset-3">
+            <button class="btn btn-default" id="tLeft">Turn Left</button>
+            <button class="btn btn-default" id="tRight">Turn Right</button>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary" id="cropButton">Next</button>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="display:none;" id="row">
+        <div class="row">
+          <div class="col-xs-5 col-xs-offset-3">
+            <canvas id="c" width="450" height="450" style="border:1px solid #c3c3c3;">
+              Your browser does not support the canvas element.
+            </canvas>
+          </div>
+          <div class="col-xs-3">
+            <input type="radio" id="st1" name="g1" checked> Style 1 </input>
+            <input type="radio" id="st2" name="g1"> Style 2 </input>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+          <div class="col-xs-offset-3 col-xs-6">
+            <!-- <button class="btn btn-default" type="button" id="clearButton" autocomplete="off">
+              Clear
+            </button> -->
+            <!-- <button class="btn btn-default" type="button" id="pic1" data-toggle="button" aria-pressed="false" autocomplete="off">
+              Add pic1
+            </button> -->
+            <!-- <button class="btn btn-default" type="button" id="pic2" data-toggle="button" aria-pressed="false" autocomplete="off">
+              Add pic2
+            </button> -->
+          </div>
+        </div>
+        <div class="row">
+          <center>
+        รอซักครู่หากกรอบไม่ปรากฏ<br><br>
+        </center>
+        </div>
+        <div class="row">
+          
+          <div class="col-xs-offset-3 col-xs-6">
+            <!-- <button class="btn btn-default" type="button" id="logo" data-toggle="button" aria-pressed="false" autocomplete="off">
+              Add logo
+            </button> -->
+            <a href="#" class="btn btn-primary" id="dlpic" download="mahidolday.jpg">
+              Download
+            </a>
+            <a href="#" class="btn btn-primary" id="openpic">
+              Open
+            </a>
+            <a href="javascript:location.reload(true)" class="btn">Select new picture</a>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-xs-offset-3 col-xs-6">
+            <button class="btn btn-default" type="button" id="done">
+              Done
+            </button>
+          </div>
+        </div> -->
+        <div class="row" style="display: none;" id="doneRow">
+          <div class="col-xs-offset-3 col-xs-6" id="doneEl">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="exif.js"></script>
+    <script src="main.js"></script>
+  <footer style="color:lightsteelblue; padding-top:50px;">
+  <!-- Siriraj hospital 2017(c) coded by Jui -->
+
+  </footer>  
+  </body>
+</html>
