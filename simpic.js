@@ -18,9 +18,6 @@ app.get('/chat', function (req, res, next) {
 app.get(/.*user$/, function (req, res, next) {
   res.sendFile(__dirname + '/chat.html');
 });
-app.get('/profile', function (req, res, next) {
-  res.sendFile(__dirname + '/profile.html');
-});
 app.get('/cp', function (req, res, next) {
   res.sendFile(__dirname + '/control_panel.html');
 });
