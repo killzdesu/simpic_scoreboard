@@ -138,4 +138,9 @@ cpIo.on('connection', function (socket) {
     console.log('Score has been made');
     monIo.emit('score', data);
   });
+
+  socket.on('forceFinish', data=>{
+    console.log('Force finish');
+    chatIo.emit('forceFinish', true);
+  })
 });

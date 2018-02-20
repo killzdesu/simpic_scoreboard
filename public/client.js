@@ -146,6 +146,10 @@ $(() => {
   });
   socket.on('forceFinish', data => {
     clearInterval(window.countdown);
-    document.getElementById('#time-left').innerHTML('--');
+    document.getElementById('time-left').innerHTML = '--';
+    turnDrawOff();
+    socket.emit('imageSend', {img: canvas.toDataURL(), time: window.timeDiff});
+    socket.emit('drawing', canvas.toDataURL());
+ 
   });
 });

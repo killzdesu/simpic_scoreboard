@@ -2,7 +2,7 @@
 teams.forEach((team, index) => {
   let checker = `
   <div class="control has-text-centered	">
-  <h4 class="has-text-weight-bold ">${team.name}</h4>
+  <h4 class="has-text-weight-bold ">${team.name}  <span class="tag is-success timeleft-tag" id='tag-item-${team.name}' style="display:none"></span></h4>
   <label class="radio">
     <input type="radio" name="${team.name}" value="correct">
     Correct
@@ -83,6 +83,10 @@ $(function () {
 
   document.getElementById('clear-log').addEventListener('click',function(){
     document.getElementById('log-cp').innerHTML = '';
+    document.querySelectorAll('.timeleft-tag').forEach(data => {
+      data.innerText = '';
+      data.style.display = 'none';
+    });
   });
 
   $("#activateDraw").click(function (e) {
@@ -97,7 +101,8 @@ $(function () {
     e.preventDefault();
   });
 
-  document.getElementById('#force-finish').addEventListener('click', e=>{
+  document.getElementById('force-finish').addEventListener('click', e=>{
+    console.log('force Finish');
     socket.emit('forceFinish', true);
   });
 
@@ -111,6 +116,10 @@ $(function () {
     data.time = new Date(data.time);
     let submittedTime = getLogTime(data.time);
     $("#log-cp").append(`<li data-tags='submit'>${submittedTime} ${getUserLog(data.name)} submitted, time left ${data.timeLeft}</li>`);
+      let tmp = document.getElementById('tag-item-'+data.name);
+      tmp.style.display = '';
+      tmp.innerText = data.timeLeft;
+    
   });
 
   socket.on('userConnect', data => {
