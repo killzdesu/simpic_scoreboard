@@ -48,7 +48,7 @@ app.use(function (err, req, res, next) {
 
 // --- listen ---
 http.listen(app.get('port'), app.get('ip'), function () {
-  console.log('%s: Node server started on %s:%d ...', Date(Date.now()), app.get('ip'), app.get('port'));
+  console.log('%s: Node started on %s:%d ..', Date(Date.now()), app.get('ip'), app.get('port'));
 });
 
 
@@ -129,7 +129,7 @@ monIo.on('connection', function (socket) {
 cpIo.on('connection', function (socket) {
   socket.on('activate', function (data) {
     console.log("Activate drawing for " + data.second);
-    data.time = new Date();
+    data.time = moment();
     chatIo.emit('activateDraw', data);
     cpIo.emit('activateDraw', data);
   });

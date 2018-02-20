@@ -81,6 +81,10 @@ $(function () {
 
   var socket = io('/cp');
 
+  document.getElementById('clear-log').addEventListener('click',function(){
+    document.getElementById('log-cp').innerHTML = '';
+  });
+
   $("#activateDraw").click(function (e) {
     second = $('#second').val();
     if (!second) 
@@ -93,6 +97,10 @@ $(function () {
     e.preventDefault();
   });
 
+  document.getElementById('#force-finish').addEventListener('click', e=>{
+    socket.emit('forceFinish', true);
+  });
+
   socket.on('activateDraw', data => {
     data.time = new Date(data.time);
     let logTime = getLogTime(data.time);
@@ -102,7 +110,7 @@ $(function () {
   socket.on('image', data => {
     data.time = new Date(data.time);
     let submittedTime = getLogTime(data.time);
-    $("#log-cp").append(`<li data-tags='submit'>${submittedTime} ${getUserLog(data.name)} submitted, time left ${data.timeLeft.toFixed(1)}</li>`);
+    $("#log-cp").append(`<li data-tags='submit'>${submittedTime} ${getUserLog(data.name)} submitted, time left ${data.timeLeft}</li>`);
   });
 
   socket.on('userConnect', data => {

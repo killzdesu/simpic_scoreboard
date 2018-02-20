@@ -36,8 +36,8 @@ var turnDrawOff = function(){
   if(canvas.isDrawingMode == true){
     stopTime = moment();
     var timeDiff = timeGiven-stopTime.diff(startTime, 'seconds', true);
-    console.log(timeDiff.toFixed(1));
-    window.timeDiff = timeDiff;
+    console.log("Time diff: " + timeDiff.toFixed(1));
+    window.timeDiff = timeDiff.toFixed(1);
     canvas.isDrawingMode = false;
     canvas.backgroundColor = '#ddd';
     canvas.renderAll();
@@ -53,22 +53,30 @@ var canvasControl = function(canvas, value){
     canvas.renderAll();
     var timeLeft = value;
     $("#time-left").html(timeLeft);
-    var countDown = setInterval(function(){
+    window.countdown = setInterval(function(){
       timeLeft--;
-      $("#time-left").html(timeLeft);
+      $("#time-left").html(timeLeft-1);
       if(timeLeft == 0){
+        $("#time-left").html('--');
         if(canvas.isDrawingMode == true){
-          socket.emit('imageSend', canvas.toDataURL());
+          turnDrawOff();
+          socket.emit('imageSend', { img: canvas.toDataURL(), time: 0.0} );
           socket.emit('drawing', canvas.toDataURL());
         }
-        turnDrawOff();
-        clearInterval(countDown);
+        clearInterval(window.countdown);
       }
     }, 1000);
   }
   else {
     turnDrawOff();
   }
+}
+
+function clearBoard(canvas){
+  canvas.clear();
+  canvas.backgroundColor = "#fff";
+  canvas.renderAll();
+  socket.emit('drawing', canvas.toDataURL());
 }
 
 var eraserMode = false;
@@ -86,10 +94,8 @@ $(() => {
   canvas.isDrawingMode = false;
   canvas.selection = false;
   $('#clearButton').click(event => {
-    canvas.clear();
-    canvas.backgroundColor = "#fff";
-    canvas.renderAll();
-    socket.emit('drawing', canvas.toDataURL());
+    if(canvas.isDrawingMode == false) return;
+    clearBoard(canvas);
   });
   $('#sizeInput').on('input', event => {
     canvas.freeDrawingBrush.width = parseInt($('#sizeInput').val());
@@ -121,6 +127,7 @@ $(() => {
   });
 
   $("#undoButton").click(function (e) {
+    if(canvas.isDrawingMode == false) return;
     canvas.remove(canvas.item(canvas.size() - 1));
     socket.emit('drawing', canvas.toDataURL());
   });
@@ -134,6 +141,11 @@ $(() => {
     // $('#nameModal').modal('show');
   });
   socket.on('activateDraw', data => {
+    clearBoard(canvas);
     canvasControl(canvas, data.second);
+  });
+  socket.on('forceFinish', data => {
+    clearInterval(window.countdown);
+    document.getElementById('#time-left').innerHTML('--');
   });
 });
