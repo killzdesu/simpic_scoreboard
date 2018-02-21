@@ -52,7 +52,7 @@ var canvasControl = function(canvas, value){
     canvas.backgroundColor = '#fff';
     canvas.renderAll();
     var timeLeft = value;
-    $("#time-left").html(timeLeft);
+    $("#time-left").html(timeLeft-1);
     window.countdown = setInterval(function(){
       timeLeft--;
       $("#time-left").html(timeLeft-1);
@@ -85,6 +85,9 @@ var socket = io('/chat');
 socket.emit('name', {name: UserName});
 $('#yourname').html("("+UserName+")");
 $(() => {
+	if(teams.filter(t=>{return t.name == UserName;}).length == 0){
+		alert('This username is not in the team list');
+	}
   $('canvas').attr('width', 600 / window.devicePixelRatio);
   $('canvas').attr('height', 600 / window.devicePixelRatio);
   canvas = new fabric.Canvas('c', {
@@ -147,9 +150,9 @@ $(() => {
   socket.on('forceFinish', data => {
     clearInterval(window.countdown);
     document.getElementById('time-left').innerHTML = '--';
+		if(canvas.isDrawingMode	== false) return;
     turnDrawOff();
     socket.emit('imageSend', {img: canvas.toDataURL(), time: window.timeDiff});
     socket.emit('drawing', canvas.toDataURL());
- 
   });
 });

@@ -97,7 +97,7 @@ chatIo.on('connection', function (socket) {
     users[name] = '';
     updateMonitor(name);
     cpIo.emit('userConnect', {name: name, time: new Date()});
-    console.log(name + ' has joined');
+    console.log(chalk.green(name + ' has joined'));
   });
 
   socket.on('imageSend', function (data) {
@@ -105,7 +105,7 @@ chatIo.on('connection', function (socket) {
     cpIo.emit('image', { name: name, time: dd, timeLeft: data.time });
     chatIo.emit('image', { img: data.img, name: name });
 
-    console.log(`[${moment().format('hh:mm:ss.SSS')}]` + ': Image emitted by' + name);
+    console.log(chalk.red(`[${moment().format('hh:mm:ss.SSS')}]` + ': Image emitted by' + name));
   });
 
   socket.on('drawing', function (data) {
@@ -136,7 +136,7 @@ monIo.on('connection', function (socket) {
 
 cpIo.on('connection', function (socket) {
   socket.on('activate', function (data) {
-    console.log("Activate drawing for " + data.second);
+    console.log(chalk.green("Activate drawing for " + data.second));
     data.time = moment();
     chatIo.emit('activateDraw', data);
     cpIo.emit('activateDraw', data);

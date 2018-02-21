@@ -41,5 +41,6 @@ function addAllUsers(user) {
   });
   return user;
 }
-
+try{
 module.exports = {teams: teams};
+} catch(err){}
