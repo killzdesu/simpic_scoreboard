@@ -2,6 +2,9 @@
 
 'use strict';
 
+document.addEventListener('touchmove', function (event) {
+  if (event.scale !== 1) { event.preventDefault(); }
+}, false);
 //modal
 $('#nameModal').on('shown.bs.modal', function () {
   $('#nameInput').focus();
@@ -88,8 +91,8 @@ $(() => {
 	if(teams.filter(t=>{return t.name == UserName;}).length == 0){
 		alert('This username is not in the team list');
 	}
-  $('canvas').attr('width', 600 / window.devicePixelRatio);
-  $('canvas').attr('height', 600 / window.devicePixelRatio);
+  $('canvas').attr('width', 1800 / window.devicePixelRatio);
+  $('canvas').attr('height', 1200 / window.devicePixelRatio);
   canvas = new fabric.Canvas('c', {
     backgroundColor: '#ddd'
   });

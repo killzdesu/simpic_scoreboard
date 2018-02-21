@@ -109,13 +109,13 @@ $(function () {
   socket.on('activateDraw', data => {
     data.time = new Date(data.time);
     let logTime = getLogTime(data.time);
-    $("#log-cp").append(`<li data-tags='activate'>${logTime} Activate for <span class="tag is-success">${second}</span> second(s)</li>`);
+    $("#log-cp").prepend(`<li data-tags='activate'>${logTime} Activate for <span class="tag is-success">${second}</span> second(s)</li>`);
   });
 
   socket.on('image', data => {
     data.time = new Date(data.time);
     let submittedTime = getLogTime(data.time);
-    $("#log-cp").append(`<li data-tags='submit'>${submittedTime} ${getUserLog(data.name)} submitted, time left ${data.timeLeft}</li>`);
+    $("#log-cp").prepend(`<li data-tags='submit'>${submittedTime} ${getUserLog(data.name)} submitted, time left ${data.timeLeft}</li>`);
       let tmp = document.getElementById('tag-item-'+data.name);
       tmp.style.display = '';
       tmp.innerText = data.timeLeft;
@@ -125,13 +125,13 @@ $(function () {
   socket.on('userConnect', data => {
     data.time = new Date(data.time);
     let submittedTime = getLogTime(data.time);
-    $("#log-cp").append(`<li data-tags='connect'>${submittedTime} ${getUserLog(data.name)} <span class='tag is-success'>Connected</span></li>`);
+    $("#log-cp").prepend(`<li data-tags='connect'>${submittedTime} ${getUserLog(data.name)} <span class='tag is-success'>Connected</span></li>`);
   });
 
   socket.on('userDisconnect', data => {
     data.time = new Date(data.time);
     let submittedTime = getLogTime(data.time);
-    $("#log-cp").append(`<li data-tags='disconnect'>${submittedTime} ${getUserLog(data.name)} <span class='tag is-danger'>Disconnected</span></li>`);
+    $("#log-cp").prepend(`<li data-tags='disconnect'>${submittedTime} ${getUserLog(data.name)} <span class='tag is-danger'>Disconnected</span></li>`);
   });
 
   $('#send-score-button').click(function () {

@@ -2,6 +2,7 @@
 *.compiled.js
 .cache
 .vscode
+dist/
 
 # Logs
 logs
