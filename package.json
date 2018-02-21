@@ -5,10 +5,13 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./simpic.js"
+    "babel-server": "babel simpic.js -o simpic.compiled.js && clear",
+    "start-build": "npm run --silent babel-server && node ./simpic.compiled.js",
+    "start": "clear && node ./simpic.js"
   },
   "keywords": [
-    "chat"
+    "Scoreboard",
+    "SIMPIC"
   ],
   "author": "Jui",
   "license": "MIT",
@@ -17,6 +20,7 @@
   },
   "homepage": "localhost",
   "dependencies": {
+    "chalk": "^2.3.1",
     "express": "^4.15.3",
     "moment": "^2.20.1",
     "serve-favicon": "^2.4.3",
@@ -24,6 +28,6 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1"
+    "babel-preset-env": "^1.6.1"
   }
 }

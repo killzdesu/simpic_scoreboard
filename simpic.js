@@ -1,9 +1,11 @@
 var express = require('express');
 var moment = require('moment');
+var chalk = require('chalk');
 var app = express();
 app.use(express.static(__dirname + '/public'));
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+var {teams} = require('./public/team');
 app.set('port', 8080);
 app.set('ip', '0.0.0.0');
 
@@ -45,7 +47,16 @@ app.use(function (err, req, res, next) {
 
 // --- listen ---
 http.listen(app.get('port'), app.get('ip'), function () {
-  console.log('%s: Node started on %s:%d ..', Date(Date.now()), app.get('ip'), app.get('port'));
+  console.log('[%s]: Node started on %s:%d ..', moment().format("MMMM Do YYYY, h:mm:ss a"), app.get('ip'), app.get('port'));
+	console.log('For '+chalk.yellow('CONTROL PANEL')+' go to '+chalk.green('HOST:PORT/cp'));
+	console.log('For '+chalk.yellow('MONITOR')+' go to '+chalk.green('HOST:PORT/mnt'));
+	console.log('For '+chalk.yellow('CLIENT')+' go to '+chalk.green('HOST:PORT/'+chalk.black.bgRed('TEAM')+'user'));
+	console.log();
+	console.log('Available '+chalk.black.bgRed('TEAM')+'s are :');
+	console.log(chalk.cyan(teams.map(function(data){return data.name})));
+	console.log('editable at public/team.js');
+	console.log('\n---------------------------------------\n');
+	
 });
 
 
@@ -58,8 +69,8 @@ var chatIo = io.of('/chat');
 var cpIo = io.of('/cp');
 var monSocket = void 0;
 
-console.log("---- All teams ----");
-// console.log(team);
+//console.log("---- All teams ----");
+//console.log(teams);
 
 var updateMonitor = function updateMonitor(name) {
   monIo.emit('userChange', {
