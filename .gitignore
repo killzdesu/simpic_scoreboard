@@ -1,5 +1,7 @@
 # Compiled file from babel
 *.compiled.js
+.cache
+.vscode
 
 # Logs
 logs
