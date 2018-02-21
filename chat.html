@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -8,7 +9,7 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
   <link rel="stylesheet" href="./bootstrap.min.css">
-  <!--<link rel="stylesheet" href="./client.css">-->
+  <link rel="stylesheet" href="./client.css">
   <script src="./jquery-3.2.1.min.js"></script>
   <script src="/bootstrap.min.js"></script>
   <script src="./socket.io.js"></script>
@@ -17,78 +18,77 @@
   <script src="./jscolor.min.js"></script>
   <script src="./underscore-min.js"></script>
   <script src="./backbone-min.js"></script>
-</had>
+  </had>
 
-<body>
-  <div class="modal fade" id="nameModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Enter Your name</h4>
+  <body>
+    <div class="modal fade" id="nameModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Enter Your name</h4>
+          </div>
+          <form id="nameForm">
+            <div class="modal-body">
+              <p>Your name is</p>
+              <input type="text" class="form-control" id="nameInput" placeholder="This will be visible to everyone..">
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+          </form>
         </div>
-        <form id="nameForm">
-          <div class="modal-body">
-            <p>Your name is</p>
-            <input type="text" class="form-control" id="nameInput" placeholder="This will be visible to everyone..">
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Apply</button>
-          </div>
-        </form>
       </div>
     </div>
-  </div>
-  <div class="containr">
-    <div class="ol-md-4" hidden>
-      <div id="clock">Time left <span id="time-left"></span> second(s)</div><br>
-    </div>
-    <div class="ol-xs-12 ol-md-7">
-      <br>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Competitor Screen <small id="yourname"></small></h3>
-        </div>
-        <ul class="list-group" id="chatList">
-        </ul>
-        <div class="panel-footer">
-          <div class="row">
-            <div class="col-xs-12">
-              <canvas id="c" width="200" height="200" style="border:1px solid #c3c3c3;">
-                Your browser does not support the canvas element.
-              </canvas>
-            </div>
+    <div class="containr">
+      <div class="ol-md-4" hidden>
+
+        <br>
+      </div>
+      <div class="ol-xs-12 ol-md-7">
+        <div class="anel anel-default">
+          <div class="anel-heading">
+            <h3 class="anel-title">Competitor Screen
+              <small id="yourname"></small>
+              <span id="clock">Time left
+                <span id="time-left">--</span>
+                second(s)</span>
+            </h3>
           </div>
-          <br>
-          <div class="row">
-            <div class="col-xs-12">
-              <form class="form-horizontal" id="inputForm">
-                <div class="form-group">
-                  <div class="col-xs-2">
+          <ul class="ist-group" id="chatList">
+          </ul>
+          <div class="anel-footer">
+            <div class="ow">
+              <div class="ol-xs-12">
+                <canvas id="c" width="200" height="200" style="border:1px solid #c3c3c3;">
+                  Your browser does not support the canvas element.
+                </canvas>
+              </div>
+            </div>
+            <br>
+            <div class="ow">
+              <div class="ol-xs-12">
+                <form class="orm-horizontal" id="inputForm">
+                  <div class="orm-group">
                     <button class="btn btn-default" type="button" id="clearButton">
                       Clear
                     </button>
-                  </div>
-                  <div class="col-xs-2">
                     <button class="btn btn-default" type="button" id="undoButton">
                       Undraw
                     </button>
-                  </div>
-                  <div class="col-xs-4 right">
-                    <button class="btn btn-default" type="submit" style="float:right">
+                    <button class="btn btn-success" type="submit" style="">
                       Send
                     </button>
                   </div>
-                </div>
-                <br>
-              </form>
+                  <br>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <script src="./team.js"></script>
-  <script src="./client.js"></script>
-</body>
+    <script src="./team.js"></script>
+    <script src="./client.js"></script>
+  </body>
 
 </html>
