@@ -2,7 +2,7 @@
 teams.forEach((team, index) => {
   let checker = `
   <div class="control has-text-centered	">
-  <h4 class="has-text-weight-bold ">${team.name}  <span class="tag is-success timeleft-tag" id='tag-item-${team.name}' style="display:none"></span></h4>
+  <h4 class="has-text-weight-bold ">${teamName[team.name]}  <span class="tag is-success timeleft-tag" id='tag-item-${team.name}' style="display:none"></span></h4>
   <label class="radio">
     <input type="radio" name="${team.name}" value="correct">
     Correct
@@ -60,7 +60,7 @@ function filterLogs(filter) {
 }
 
 function getUserLog(user) {
-  return `<span class="tag is-primary">${user}</span>`;
+  return `<span class="tag is-primary">${teamName[user]}</span>`;
 }
 
 $('#filter-button > p > a.button')

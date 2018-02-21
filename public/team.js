@@ -26,14 +26,24 @@ var Team = function () {
   return Team;
 }();
 
+var teamName = {
+  't1': "JuiJui",
+  't2': "lnw",
+  't3': "zaa",
+  't4': "007",
+  't5': "EiEi",
+  't6': "Gum",
+  't7': "Lims"
+};
+
 var teams = [];
-teams.push(new Team('Jui'));
-teams.push(new Team('lnw'));
-teams.push(new Team('zaa'));
-teams.push(new Team('555'));
-teams.push(new Team('Eiei'));
-teams.push(new Team('Gum'));
-teams.push(new Team('Lims'));
+teams.push(new Team('t1'));
+teams.push(new Team('t2'));
+teams.push(new Team('t3'));
+teams.push(new Team('t4'));
+teams.push(new Team('t5'));
+teams.push(new Team('t6'));
+teams.push(new Team('t7'));
 
 function addAllUsers(user) {
   teams.forEach(function (team) {
@@ -42,5 +52,8 @@ function addAllUsers(user) {
   return user;
 }
 try{
-module.exports = {teams: teams};
+module.exports = {
+  teams: teams,
+  teamName: teamName
+};
 } catch(err){}

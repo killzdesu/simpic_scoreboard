@@ -1,7 +1,9 @@
 $("h3").addClass('has-text-weight-bold');
 
 teams.forEach((team, index) => {
-  $(`.is-one-fifth:eq(${index}) > div > h3`).text(team.name);
+  let name = team.name;
+  if(teamName[name]) name = teamName[name];
+  $(`.is-one-fifth:eq(${index}) > div > h3`).text(name);
   team.index = index;
 });
 
