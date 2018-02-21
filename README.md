@@ -4,6 +4,5 @@ A scoreboard and control panel for real-time-writing competition that will be us
 ## How to use
 1. Clone this git
 2. go to this directory
-3. run '$ npm install'
-4. start by run '$ npm run start'
-
+3. run `$ npm install`
+4. start by run `$ npm run start`
