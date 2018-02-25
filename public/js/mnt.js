@@ -1,5 +1,7 @@
 $("h3").addClass('has-text-weight-bold');
 
+var lockedScreen = [false,false,false,false,false,false,false];
+
 teams.forEach((team, index) => {
   let name = team.name;
   if(teamName[name]) name = teamName[name];
@@ -11,7 +13,7 @@ var socket = io('/monitor');
 
 socket.on('userChange', data => {
   let team = teams.find(t => t.name == data.name);
-  if(team && data.img){
+  if(team && data.img && !lockedScreen[team.index]){
     $(`.is-one-fifth:eq(${team.index}) > div > img`).attr('src', data.img);
   }
 });
@@ -35,4 +37,8 @@ socket.on('score', data => {
         $(`.is-one-fifth:eq(${index}) > div > h3`).css('background', '').css('color', 'black');
     }
   });
+});
+
+socket.on('lockScreen', data => {
+  lockedScreen[data.index] = data.value;
 });

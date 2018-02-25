@@ -126,7 +126,7 @@ $(() => {
   $('#inputForm').submit(event => {
     event.preventDefault();
     if(canvas.isDrawingMode == false) return;
-    if(window.confirm('You sure to submit?')){
+    if(true || window.confirm('You sure to submit?')){
       turnDrawOff();
       socket.emit('imageSend', {img: canvas.toDataURL(), time: window.timeDiff});
       socket.emit('drawing', canvas.toDataURL());

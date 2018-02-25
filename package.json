@@ -1,5 +1,5 @@
 {
-  "name": "SIMPIC scoreboard",
+  "name": "simpic_scoreboard",
   "version": "1.0.0",
   "description": "Live competition for final round SIMPIC 2018",
   "main": "simpic.js",

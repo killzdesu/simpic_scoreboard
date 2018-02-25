@@ -158,4 +158,9 @@ cpIo.on('connection', function (socket) {
   socket.on('refresh', d => {
     clientIo.emit('refresh', true);
   });
+
+  socket.on('lockScreen', data => {
+    monIo.emit('lockScreen', data);
+    console.log('Lock screen of '+ chalk.yellow(data.name));
+  });
 });

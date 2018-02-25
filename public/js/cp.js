@@ -138,9 +138,10 @@ $(function () {
     let submittedTime = getLogTime(data.time);
     $("#log-cp").prepend(`<li data-tags='submit'>${submittedTime} ${getUserLog(data.name)} submitted, time left ${data.timeLeft}</li>`);
     let tmp = document.getElementById('tag-item-' + data.name);
-    tmp.style.display = '';
-    tmp.innerText = data.timeLeft;
-
+    if(tmp){
+      tmp.style.display = '';
+      tmp.innerText = data.timeLeft;
+    }
   });
 
   socket.on('userConnect', data => {
@@ -194,5 +195,22 @@ $(function () {
   document.getElementById('rf-button').addEventListener('click', e => {
     if(prompt('Password for refresh') == 'Jui')
       socket.emit('refresh', true);
-  })
+  });
+
+  document.querySelectorAll('h4').forEach((el, index) => {
+    let lockedColor = 'red';
+    el.addEventListener('click', (e) => {
+      if(el.style.color != lockedColor){
+        if(confirm(`lock ${el.innerText.split(' ')[0]} screen?`)){
+          el.style.color = lockedColor;
+          socket.emit('lockScreen', {name: `t${index+1}`, index: index, value: true});
+        }
+      } else {
+        if(confirm(`unlock ${el.innerText.split(' ')[0]} screen?`)){
+          el.style.color = 'black';
+          socket.emit('lockScreen', {name: `t${index+1}`, index: index, value: false});
+        }
+      }
+    });
+  });
 });
