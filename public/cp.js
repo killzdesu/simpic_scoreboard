@@ -2,7 +2,7 @@
 teams.forEach((team, index) => {
   let checker = `
   <div class="control has-text-centered	">
-  <h4 class="has-text-weight-bold ">${teamName[team.name]}  <span class="tag is-success timeleft-tag" id='tag-item-${team.name}' style="display:none"></span></h4>
+  <h4 class="has-text-weight-bold ">${teamName[team.name]}  <span class="tag is-info timeleft-tag" id='tag-item-${team.name}' style="display:none"></span></h4>
   <label class="radio">
     <input type="radio" name="${team.name}" value="correct">
     Correct
@@ -77,17 +77,36 @@ function getLogTime(date) {
   return time;
 }
 
+var countDown = function(second) {
+  var timeLeft = second;
+  $("#time-left").html(timeLeft - 1);
+  window.countdown = setInterval(function () {
+    timeLeft--;
+    $("#time-left").html(timeLeft - 1);
+    if (timeLeft == 0) {
+      $("#time-left").html('--');
+      clearInterval(window.countdown);
+    }
+  }, 1000);
+}
+
 $(function () {
 
   var socket = io('/cp');
 
-  document.getElementById('clear-log').addEventListener('click',function(){
-    document.getElementById('log-cp').innerHTML = '';
-    document.querySelectorAll('.timeleft-tag').forEach(data => {
-      data.innerText = '';
-      data.style.display = 'none';
+  document
+    .getElementById('clear-log')
+    .addEventListener('click', function () {
+      document
+        .getElementById('log-cp')
+        .innerHTML = '';
+      document
+        .querySelectorAll('.timeleft-tag')
+        .forEach(data => {
+          data.innerText = '';
+          data.style.display = 'none';
+        });
     });
-  });
 
   $("#activateDraw").click(function (e) {
     second = $('#second').val();
@@ -101,10 +120,12 @@ $(function () {
     e.preventDefault();
   });
 
-  document.getElementById('force-finish').addEventListener('click', e=>{
-    console.log('force Finish');
-    socket.emit('forceFinish', true);
-  });
+  document
+    .getElementById('force-finish')
+    .addEventListener('click', e => {
+      console.log('force Finish');
+      socket.emit('forceFinish', true);
+    });
 
   socket.on('activateDraw', data => {
     data.time = new Date(data.time);
@@ -116,10 +137,10 @@ $(function () {
     data.time = new Date(data.time);
     let submittedTime = getLogTime(data.time);
     $("#log-cp").prepend(`<li data-tags='submit'>${submittedTime} ${getUserLog(data.name)} submitted, time left ${data.timeLeft}</li>`);
-      let tmp = document.getElementById('tag-item-'+data.name);
-      tmp.style.display = '';
-      tmp.innerText = data.timeLeft;
-    
+    let tmp = document.getElementById('tag-item-' + data.name);
+    tmp.style.display = '';
+    tmp.innerText = data.timeLeft;
+
   });
 
   socket.on('userConnect', data => {
@@ -134,9 +155,18 @@ $(function () {
     $("#log-cp").prepend(`<li data-tags='disconnect'>${submittedTime} ${getUserLog(data.name)} <span class='tag is-danger'>Disconnected</span></li>`);
   });
 
+  socket.on('activateDraw', data => {
+    countDown(data.second);
+  });
+
+  socket.on('forceFinish', data => {
+    clearInterval(window.countdown);
+    document.getElementById('time-left').innerText = "--";
+  })
+
   $('#send-score-button').click(function () {
     if (confirm('Do you want to score?')) {
-      let score = {}; 
+      let score = {};
       teams.forEach((team, index) => {
         let correct = $(`input[name='${team.name}'][value="correct"]`);
         let wrong = $(`input[name='${team.name}'][value="wrong"]`);

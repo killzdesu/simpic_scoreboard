@@ -6,10 +6,9 @@ app.use(express.static(__dirname + '/public'));
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 var {teams} = require('./public/team');
+var gvar = {};
 app.set('port', 8080);
 app.set('ip', '0.0.0.0');
-
-// import {teams, addAllUsers} from './team';
 
 app.get('/', function (req, res, next) {
   res.send('SIMPIC academic');
@@ -138,6 +137,7 @@ cpIo.on('connection', function (socket) {
   socket.on('activate', function (data) {
     console.log(chalk.green("Activate drawing for " + data.second));
     data.time = moment();
+    gvar.activateTime = moment();
     chatIo.emit('activateDraw', data);
     cpIo.emit('activateDraw', data);
   });
@@ -150,5 +150,6 @@ cpIo.on('connection', function (socket) {
   socket.on('forceFinish', data=>{
     console.log('Force finish');
     chatIo.emit('forceFinish', true);
+    cpIo.emit('forceFinish', true);
   })
 });

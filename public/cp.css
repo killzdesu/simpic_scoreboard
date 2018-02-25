@@ -5,3 +5,9 @@
     ".console"
     ".score";
 }
+
+#clock {
+    margin-left: 40px;
+    color: darkred;
+    font-weight: bold;
+}
