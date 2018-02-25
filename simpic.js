@@ -5,7 +5,7 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-var {teams, teamName} = require('./public/team');
+var {teams, teamName} = require('./public/js/team');
 var gvar = {};
 app.set('port', 8080);
 app.set('ip', '0.0.0.0');
@@ -14,10 +14,10 @@ app.get('/', function (req, res, next) {
   res.send('SIMPIC academic');
 });
 app.get('/chat', function (req, res, next) {
-  res.sendFile(__dirname + '/chat.html');
+  res.sendFile(__dirname + '/client.html');
 });
 app.get(/.*user$/, function (req, res, next) {
-  res.sendFile(__dirname + '/chat.html');
+  res.sendFile(__dirname + '/client.html');
 });
 app.get('/cp', function (req, res, next) {
   res.sendFile(__dirname + '/control_panel.html');
@@ -64,7 +64,7 @@ http.listen(app.get('port'), app.get('ip'), function () {
 
 var users = {};
 var monIo = io.of('/monitor');
-var chatIo = io.of('/chat');
+var clientIo = io.of('/chat');
 var cpIo = io.of('/cp');
 var scoreIo = io.of('/score');
 var monSocket = void 0;
@@ -86,8 +86,8 @@ var updateMnt = function(img, name){
   })
 }
 
-// ----- CHAT BOX -----
-chatIo.on('connection', function (socket) {
+// ----- CLIENT -----
+clientIo.on('connection', function (socket) {
   var name = 'Anonymous';
 
   socket.emit('connect', true);
@@ -97,16 +97,16 @@ chatIo.on('connection', function (socket) {
     users[name] = '';
     updateMonitor(name);
     cpIo.emit('userConnect', {name: name, time: new Date()});
-    console.log(chalk.green(name + ' has joined'));
+    console.log(chalk.green(teamName[name] + ' has joined'));
   });
 
   socket.on('imageSend', function (data) {
     var dd = new Date();
     cpIo.emit('image', { name: name, time: dd, timeLeft: data.time });
-    chatIo.emit('image', { img: data.img, name: name });
+    clientIo.emit('image', { img: data.img, name: name });
     scoreIo.emit('submit', { name: name, time: data.time});
 
-    console.log(chalk.red(`[${moment().format('hh:mm:ss.SSS')}]` + ': Image emitted by' + name));
+    console.log(chalk.red(`[${moment().format('hh:mm:ss.SSS')}]`) + ': Image emitted by' + name);
   });
 
   socket.on('drawing', function (data) {
@@ -140,7 +140,7 @@ cpIo.on('connection', function (socket) {
     console.log(chalk.green("Activate drawing for " + data.second));
     data.time = moment();
     gvar.activateTime = moment();
-    chatIo.emit('activateDraw', data);
+    clientIo.emit('activateDraw', data);
     cpIo.emit('activateDraw', data);
   });
 
@@ -151,7 +151,11 @@ cpIo.on('connection', function (socket) {
 
   socket.on('forceFinish', data=>{
     console.log('Force finish');
-    chatIo.emit('forceFinish', true);
+    clientIo.emit('forceFinish', true);
     cpIo.emit('forceFinish', true);
-  })
+  });
+
+  socket.on('refresh', d => {
+    clientIo.emit('refresh', true);
+  });
 });
