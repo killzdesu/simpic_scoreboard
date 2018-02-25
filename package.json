@@ -1,8 +1,8 @@
 {
-  "name": "chatting",
+  "name": "SIMPIC scoreboard",
   "version": "1.0.0",
-  "description": "Chatting",
-  "main": "server.js",
+  "description": "Live competition for final round SIMPIC 2018",
+  "main": "simpic.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-server": "babel simpic.js -o simpic.compiled.js && clear",

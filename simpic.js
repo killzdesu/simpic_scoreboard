@@ -53,7 +53,7 @@ http.listen(app.get('port'), app.get('ip'), function () {
 	console.log();
 	console.log('Available '+chalk.black.bgRed('TEAM')+`s are ${chalk.yellow('t1')}-${chalk.yellow('t7')} will represent these names :`);
 	console.log(chalk.cyan(teams.map(function(data){return teamName[data.name]})));
-	console.log('editable at public/team.js');
+	console.log('editable at public/js/team.js');
 	console.log('\n---------------------------------------\n');
 	
 });
