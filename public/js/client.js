@@ -99,6 +99,7 @@ $(() => {
   // console.log(canvas);
   canvas.isDrawingMode = false;
   canvas.selection = false;
+  canvas.freeDrawingBrush.width = 2.5;
   $('#clearButton').click(event => {
     if(canvas.isDrawingMode == false) return;
     clearBoard(canvas);
@@ -149,6 +150,7 @@ $(() => {
 
   socket.on('connect',function() {
     console.log('Client has connected to the server!');
+    socket.emit('name', {name: UserName});
     // $('#nameModal').modal('show');
   });
 
