@@ -1,0 +1,94 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>SIMPIC Competitor</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
+  <link rel="stylesheet" href="./vendor/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/client.css">
+  <script src="./vendor/js/jquery-3.2.1.min.js"></script>
+  <script src="./vendor/js/bootstrap.min.js"></script>
+  <script src="./vendor/js/socket.io.js"></script>
+  <script src="./vendor/js/fabric.min.js"></script>
+  <script src="./vendor/js/moment.js"></script>
+  <script src="./vendor/js/jscolor.min.js"></script>
+  <script src="./vendor/js/underscore-min.js"></script>
+  <script src="./vendor/js/backbone-min.js"></script>
+  </had>
+
+  <body>
+    <div class="modal fade" id="nameModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Enter Your name</h4>
+          </div>
+          <form id="nameForm">
+            <div class="modal-body">
+              <p>Your name is</p>
+              <input type="text" class="form-control" id="nameInput" placeholder="This will be visible to everyone..">
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="containr">
+      <div class="ol-md-4" hidden>
+
+        <br>
+      </div>
+      <div class="ol-xs-12 ol-md-7">
+        <div class="anel anel-default">
+          <div class="anel-heading">
+            <h3 class="anel-title">Competitor Screen
+              <small id="yourname"></small>
+              <span id="clock">Time left
+                <span id="time-left">--</span>
+                second(s)</span>
+            </h3>
+          </div>
+          <ul class="ist-group" id="chatList">
+          </ul>
+          <div class="anel-footer">
+            <center class="ow">
+              <div class="ol-xs-12">
+                <canvas id="c" width="200" height="200" style="border:1px solid #c3c3c3;">
+                  Your browser does not support the canvas element.
+                </canvas>
+              </div>
+            </center>
+            <br>
+            <div class="ow">
+              <div class="ol-xs-12">
+                <form class="orm-horizontal" id="inputForm">
+                  <div class="orm-group">
+                    <button class="btn btn btn-default" type="button" id="clearButton" style="margin-left:60px;">
+                      Clear
+                    </button>
+                    <button class="btn btn btn-default" type="button" id="undoButton">
+                      Undo
+                    </button>
+                    <button class="btn btn-lg btn-primary" type="submit" style="float: right;margin-right: 60px;">
+                      Send
+                    </button>
+                  </div>
+                  <br>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./js/team.js"></script>
+    <script src="./js/client.js"></script>
+  </body>
+
+</html>
