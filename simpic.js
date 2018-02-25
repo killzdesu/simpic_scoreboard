@@ -5,7 +5,7 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-var {teams} = require('./public/team');
+var {teams, teamName} = require('./public/team');
 var gvar = {};
 app.set('port', 8080);
 app.set('ip', '0.0.0.0');
@@ -51,8 +51,8 @@ http.listen(app.get('port'), app.get('ip'), function () {
 	console.log('For '+chalk.yellow('MONITOR')+' go to '+chalk.green('HOST:PORT/mnt'));
 	console.log('For '+chalk.yellow('CLIENT')+' go to '+chalk.green('HOST:PORT/'+chalk.black.bgRed('TEAM')+'user'));
 	console.log();
-	console.log('Available '+chalk.black.bgRed('TEAM')+'s are :');
-	console.log(chalk.cyan(teams.map(function(data){return data.name})));
+	console.log('Available '+chalk.black.bgRed('TEAM')+`s are ${chalk.yellow('t1')}-${chalk.yellow('t7')} will represent these names :`);
+	console.log(chalk.cyan(teams.map(function(data){return teamName[data.name]})));
 	console.log('editable at public/team.js');
 	console.log('\n---------------------------------------\n');
 	
@@ -66,6 +66,7 @@ var users = {};
 var monIo = io.of('/monitor');
 var chatIo = io.of('/chat');
 var cpIo = io.of('/cp');
+var scoreIo = io.of('/score');
 var monSocket = void 0;
 
 //console.log("---- All teams ----");
@@ -103,6 +104,7 @@ chatIo.on('connection', function (socket) {
     var dd = new Date();
     cpIo.emit('image', { name: name, time: dd, timeLeft: data.time });
     chatIo.emit('image', { img: data.img, name: name });
+    scoreIo.emit('submit', { name: name, time: data.time});
 
     console.log(chalk.red(`[${moment().format('hh:mm:ss.SSS')}]` + ': Image emitted by' + name));
   });
