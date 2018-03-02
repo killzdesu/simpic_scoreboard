@@ -55,14 +55,14 @@ http.listen(app.get('port'), app.get('ip'), function () {
 	console.log(chalk.cyan(teams.map(function(data){return teamName[data.name]})));
 	console.log('editable at public/js/team.js');
 	console.log('\n---------------------------------------\n');
-	
-});
 
+});
 
 
 // #####*****----- socket -----*****##### //
 
 var users = {};
+var usersDraw = {};
 var monIo = io.of('/monitor');
 var clientIo = io.of('/chat');
 var cpIo = io.of('/cp');
@@ -75,6 +75,13 @@ var monSocket = void 0;
 var updateMonitor = function updateMonitor(name) {
   monIo.emit('userChange', {
     img: users[name],
+    name: name
+  });
+};
+
+var updateMonitorDraw = function updateMonitorDraw(name) {
+  monIo.emit('userDraw', {
+    img: usersDraw[name],
     name: name
   });
 };
@@ -101,6 +108,8 @@ clientIo.on('connection', function (socket) {
   });
 
   socket.on('imageSend', function (data) {
+    users[name] = data;
+    updateMonitor(name);
     var dd = new Date();
     cpIo.emit('image', { name: name, time: dd, timeLeft: data.time });
     clientIo.emit('image', { img: data.img, name: name });
@@ -110,9 +119,9 @@ clientIo.on('connection', function (socket) {
   });
 
   socket.on('drawing', function (data) {
-    console.log('drawing: (image) emitted by ' + name);
-    users[name] = data;
-    updateMonitor(name);
+    //console.log('drawing: (image) emitted by ' + name);
+    usersDraw[name] = data;
+    updateMonitorDraw(name);
   });
 
   // --- removing user on "disconnect" ---

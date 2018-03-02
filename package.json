@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-server": "babel simpic.js -o simpic.compiled.js && clear",
     "start-build": "npm run --silent babel-server && node ./simpic.compiled.js",
-    "start": "clear && node ./simpic.js"
+    "start": "clear && node ./simpic.js --color"
   },
   "keywords": [
     "Scoreboard",

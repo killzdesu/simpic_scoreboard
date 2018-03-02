@@ -1,6 +1,6 @@
-.container > div > div.is-one-fifth {
-    /* border-style: solid; 
-    border-width: 1px; */
+.screen > .box{
+  padding: 5px;
+  padding-top: 10px;
 }
 
 h3 {
