@@ -34,7 +34,7 @@ var canvasControl = function(canvas, value){
     timeGiven = value;
     startTime = moment();
     canvas.isDrawingMode = true;
-    canvas.backgroundColor = '#fff';
+    //canvas.backgroundColor = '#FF0000';
     canvas.renderAll();
     var timeLeft = value;
     $('#submitButton').removeClass('disabled');
@@ -55,17 +55,19 @@ var canvasControl = function(canvas, value){
         clearInterval(window.countdown);
       }
     }, 1000);
+    let imgData = canvas.toDataURL();
+    socket.emit('drawing', imgData);
   }
   else {
     turnDrawOff();
   }
 }
 
-function clearBoard(canvas){
+function clearBoard(){
   canvas.clear();
-  canvas.backgroundColor = null;
+  canvas.setBackgroundColor(null, canvas.renderAll.bind(canvas));
   canvas.renderAll();
-  socket.emit('drawing', canvas.toDataURL());
+  //socket.emit('drawing', canvas.toDataURL());
 }
 
 var eraserMode = false;
@@ -86,10 +88,10 @@ $(() => {
   // console.log(canvas);
   canvas.isDrawingMode = false;
   canvas.selection = false;
-  canvas.freeDrawingBrush.width = 6.5;
+  canvas.freeDrawingBrush.width = 6;
   $('#clearButton').click(event => {
     if(canvas.isDrawingMode == false) return;
-    clearBoard(canvas);
+    clearBoard();
   });
   $('#sizeInput').on('input', event => {
     canvas.freeDrawingBrush.width = parseInt($('#sizeInput').val());
@@ -143,7 +145,7 @@ $(() => {
   });
 
   socket.on('activateDraw', data => {
-    clearBoard(canvas);
+    clearBoard();
     canvasControl(canvas, data.second);
   });
 

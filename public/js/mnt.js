@@ -2,6 +2,7 @@ $("h3").addClass('has-text-weight-bold');
 $('.is-gapless').css('margin-top', '-20px');
 
 var lockedScreen = [false,false,false,false,false,false,false];
+window.disableDraw = false;
 
 teams.forEach((team, index) => {
   let name = team.name;
@@ -13,6 +14,14 @@ teams.forEach((team, index) => {
 var socket = io('/monitor');
 
 socket.on('userChange', data => {
+  let team = teams.find(t => t.name == data.name);
+  if(team && data.img && !lockedScreen[team.index]){
+    $(`.screen:eq(${team.index}) > div > img`).attr('src', data.img);
+  }
+});
+
+socket.on('userDraw', data => {
+  if(window.disableDraw && window.disableDraw == true) return;
   let team = teams.find(t => t.name == data.name);
   if(team && data.img && !lockedScreen[team.index]){
     $(`.screen:eq(${team.index}) > div > img`).attr('src', data.img);

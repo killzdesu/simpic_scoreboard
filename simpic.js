@@ -108,14 +108,14 @@ clientIo.on('connection', function (socket) {
   });
 
   socket.on('imageSend', function (data) {
-    users[name] = data;
+    users[name] = data.img;
     updateMonitor(name);
     var dd = new Date();
     cpIo.emit('image', { name: name, time: dd, timeLeft: data.time });
     clientIo.emit('image', { img: data.img, name: name });
     scoreIo.emit('submit', { name: name, time: data.time});
 
-    console.log(chalk.red(`[${moment().format('hh:mm:ss.SSS')}]`) + ': Image emitted by' + name);
+    console.log(chalk.red(`[${moment().format('hh:mm:ss.SSS')}]`) + ': Image emitted by ' + teamName[name]);
   });
 
   socket.on('drawing', function (data) {
