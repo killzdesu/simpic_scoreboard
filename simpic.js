@@ -105,6 +105,13 @@ clientIo.on('connection', function (socket) {
     updateMonitor(name);
     cpIo.emit('userConnect', {name: name, time: new Date()});
     console.log(chalk.green(teamName[name] + ' has joined'));
+    let timeNow = moment();
+    if(gvar.activateTime){
+      let diff = gvar.activateTime.diff(timeNow, 'seconds', true);
+      if(diff > 0){
+        clientIo.emit('activateDraw', {second: Math.floor(diff)});
+      }
+    }
   });
 
   socket.on('imageSend', function (data) {
@@ -149,6 +156,7 @@ cpIo.on('connection', function (socket) {
     console.log(chalk.green("Activate drawing for " + data.second));
     data.time = moment();
     gvar.activateTime = moment();
+    gvar.activateTime.add(data.second, 'seconds');
     clientIo.emit('activateDraw', data);
     cpIo.emit('activateDraw', data);
   });
@@ -160,6 +168,7 @@ cpIo.on('connection', function (socket) {
 
   socket.on('forceFinish', data=>{
     console.log('Force finish');
+    delete gvar['activateTime'];
     clientIo.emit('forceFinish', true);
     cpIo.emit('forceFinish', true);
   });

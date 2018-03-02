@@ -42,7 +42,7 @@ var canvasControl = function(canvas, value){
     window.countdown = setInterval(function(){
       timeLeft--;
       $("#time-left").html(timeLeft-1);
-      if(timeLeft == 0){
+      if(timeLeft <= 0){
         $("#time-left").html('--');
         if(canvas.isDrawingMode == true){
           turnDrawOff();
