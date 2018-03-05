@@ -182,3 +182,15 @@ cpIo.on('connection', function (socket) {
     console.log('Lock screen of '+ chalk.yellow(data.name));
   });
 });
+
+// ------------- Scorer --------------
+
+scoreIo.on('connection', function(socket){
+  socket.on('sendResult', function(data){
+    cpIo.emit('sendResult', data);
+    console.log(data);
+  });
+
+
+
+});

@@ -42,7 +42,7 @@ socket.on('score', data => {
       if(data[team.name] == 1)
         $(`.screen:eq(${index}) > div`).css('background', 'lime').css('color', 'black');
       if(data[team.name] == -1)
-        $(`.screen:eq(${index}) > div`).css('background', 'rgb(218, 55, 44)').css('color', 'white');
+        $(`.screen:eq(${index}) > div`).css('background', 'rgba(253, 16, 0, 0.72)').css('color', 'white');
       if(data[team.name] == 0)
         $(`.screen:eq(${index}) > div`).css('background', '').css('color', 'black');
     }

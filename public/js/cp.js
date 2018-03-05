@@ -110,7 +110,7 @@ $(function () {
 
   $("#activateDraw").click(function (e) {
     second = $('#second').val();
-    if (!second) 
+    if (!second)
       return;
     name = 'control panel'
     socket.emit('activate', {second, name});
@@ -163,19 +163,32 @@ $(function () {
   socket.on('forceFinish', data => {
     clearInterval(window.countdown);
     document.getElementById('time-left').innerText = "--";
-  })
+  });
 
+  socket.on('sendResult', data => {
+    console.log(data);
+    for(var i=1;i<=7;i++){
+      $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", false);
+      $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", false);
+      if(data[i] == 1){
+        $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", true);
+      }
+      if(data[i] == 2){
+        $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", true);
+      }
+    }
+  });
   $('#send-score-button').click(function () {
     if (confirm('Do you want to score?')) {
       let score = {};
       teams.forEach((team, index) => {
         let correct = $(`input[name='${team.name}'][value="correct"]`);
         let wrong = $(`input[name='${team.name}'][value="wrong"]`);
-        if (correct.is(':checked')) 
+        if (correct.is(':checked'))
           score[team.name] = 1;
-        else if (wrong.is(':checked')) 
+        else if (wrong.is(':checked'))
           score[team.name] = -1;
-        else 
+        else
           score[team.name] = 0;
         }
       );
