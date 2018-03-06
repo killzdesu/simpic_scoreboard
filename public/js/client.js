@@ -73,7 +73,7 @@ function clearBoard(){
 var eraserMode = false;
 var name;
 var socket = io('/chat');
-socket.emit('name', {name: UserName});
+
 $('#yourname').html("("+teamName[UserName]+")");
 $(() => {
 	if(teams.filter(t=>{return t.name == UserName;}).length == 0){
