@@ -1,6 +1,16 @@
-.screen > .box{
+body {
+  padding-button: -0px;
+  margin-button: -0px;
+}
+.screen > .box {
   padding: 5px;
-  padding-top: 10px;
+  padding-top: 5px;
+  height: 210px;
+}
+
+.box > img {
+  max-width:100%;
+  max-height:170px;
 }
 
 h3 {

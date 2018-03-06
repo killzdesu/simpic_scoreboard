@@ -63,6 +63,11 @@ var canvasControl = function(canvas, value){
   }
 }
 
+var getBorder = function(){
+
+}
+
+
 function clearBoard(){
   canvas.clear();
   canvas.setBackgroundColor(null, canvas.renderAll.bind(canvas));
@@ -73,6 +78,56 @@ function clearBoard(){
 var eraserMode = false;
 var name;
 var socket = io('/chat');
+
+var cropImage = function() {
+  var ctx = canvas.getContext('2d');
+  var w = canvas.width,
+    h = canvas.height,
+    pix = {x:[], y:[]},
+    imageData = ctx.getImageData(0,0,canvas.width,canvas.height),
+    x, y, index;
+
+  for (y = 0; y < h; y++) {
+    for (x = 0; x < w; x++) {
+      index = (y * w + x) * 4;
+      if (imageData.data[index+3] > 0) {
+
+        pix.x.push(x);
+        pix.y.push(y);
+
+      }
+    }
+  }
+  pix.x.sort(function(a,b){return a-b});
+  pix.y.sort(function(a,b){return a-b});
+  var n = pix.x.length-1;
+
+  w = pix.x[n] - pix.x[0];
+  h = pix.y[n] - pix.y[0];
+  //var cut = ctx.getImageData(pix.x[0], pix.y[0], w, h);
+
+  console.log(pix.x[0], pix.y[0], w, h);
+
+  socket.emit('imageSend', {
+    img: canvas.toDataURL({
+      left: pix.x[0],
+      top: pix.y[0],
+      width: w,
+      height: h,
+    }),
+    time: window.timeDiff
+  });
+
+
+  //canvas.width = w;
+  //canvas.height = h;
+  //ctx.putImageData(cut, 0, 0);
+
+  //var image = canvas.toDataURL();
+  //var win=window.open(image, '_blank');
+  //win.focus();
+}
+
 
 $('#yourname').html("("+teamName[UserName]+")");
 $(() => {
@@ -119,6 +174,7 @@ $(() => {
       turnDrawOff();
       canvas.backgroundColor = null;
       socket.emit('imageSend', {img: canvas.toDataURL(), time: window.timeDiff});
+      //cropImage(canvas);
       //socket.emit('drawing', canvas.toDataURL());
       canvas.backgroundColor = '#DDDDDD';
       canvas.renderAll();
@@ -155,6 +211,7 @@ $(() => {
 		if(canvas.isDrawingMode	== false) return;
     turnDrawOff();
     socket.emit('imageSend', {img: canvas.toDataURL(), time: window.timeDiff});
+    //cropImage(canvas);
     //socket.emit('drawing', canvas.toDataURL());
   });
 

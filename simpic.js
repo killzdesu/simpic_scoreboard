@@ -29,6 +29,9 @@ app.get('/monitor', function (req, res, next) {
 app.get('/mnt', function (req, res, next) {
   res.sendFile(__dirname + '/mnt.html');
 });
+app.get('/mnt4', function (req, res, next) {
+  res.sendFile(__dirname + '/mnt4.html');
+});
 //==== for favicon
 app.get('/favicon.ico', function(req, res) {
   res.status(204);
@@ -62,7 +65,7 @@ http.listen(app.get('port'), app.get('ip'), function () {
 // ============ LOGGER ===============
 
 var tsFormat = function(){
-	return (new Date()).toLocaleTimeString(); 
+	return (new Date()).toLocaleTimeString();
 }
 var env = 'development';
 var logger = new (winston.Logger)({
@@ -73,7 +76,7 @@ var logger = new (winston.Logger)({
       level: 'info'
     }),
     new (winston.transports.File)({
-      filename: `log/logger.log`,
+      filename: `jlog/logger.log`,
       timestamp: tsFormat,
       level: env === 'development' ? 'debug' : 'info'
     })
