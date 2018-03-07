@@ -27,13 +27,13 @@ var Team = function () {
 }();
 
 var teamName = {
-  't1': "JuiJui",
-  't2': "lnw",
-  't3': "zaa",
-  't4': "007",
-  't5': "EiEi",
-  't6': "Gum",
-  't7': "Lims"
+  't1': "Jui",
+  't2': "P' Jay",
+  't3': "Best",
+  't4': "no one",
+  't5': "Mook",
+  't6': "Pop",
+  't7': "Big"
 };
 
 var teams = [];

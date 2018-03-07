@@ -91,6 +91,7 @@ var usersDraw = {};
 var monIo = io.of('/monitor');
 var clientIo = io.of('/chat');
 var cpIo = io.of('/cp');
+var scoreOutIo = io.of('/score');
 var scoreIo = io.of('/score');
 var monSocket = void 0;
 
@@ -143,7 +144,7 @@ clientIo.on('connection', function (socket) {
     var dd = new Date();
     cpIo.emit('image', { name: name, time: dd, timeLeft: data.time });
     clientIo.emit('image', { img: data.img, name: name });
-    scoreIo.emit('submit', { name: name, time: data.time});
+    scoreOutIo.emit('submit', { name: name, time: data.time});
 
 		// console.log(chalk.red(`[${moment().format('hh:mm:ss.SSS')}]`) + ': Image emitted by ' + teamName[name]);
 		logger.info(teamName[name]+' has submitted an answer. Time left '+data.time+'s');
@@ -201,9 +202,6 @@ cpIo.on('connection', function (socket) {
     cpIo.emit('forceFinish', true);
   });
 
-  socket.on('refresh', d => {
-    clientIo.emit('refresh', true);
-  });
 
   socket.on('lockScreen', data => {
     monIo.emit('lockScreen', data);

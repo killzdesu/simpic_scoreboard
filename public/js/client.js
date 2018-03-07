@@ -43,28 +43,29 @@ var canvasControl = function(canvas, value){
       timeLeft--;
       $("#time-left").html(timeLeft-1);
       if(timeLeft <= 0){
-        $("#time-left").html('--');
         if(canvas.isDrawingMode == true){
-          turnDrawOff();
-          canvas.backgroundColor = null;
-          socket.emit('imageSend', {img: canvas.toDataURL(), time: 0.0});
-          //socket.emit('drawing', canvas.toDataURL());
-          canvas.backgroundColor = '#DDDDDD';
-          canvas.renderAll();
+          if(value-moment().diff(startTime) < 3){
+            turnDrawOff();
+            canvas.backgroundColor = null;
+            socket.emit('imageSend', {img: canvas.toDataURL(), time: 0.0});
+            console.log('asdasd');
+            //socket.emit('drawing', canvas.toDataURL());
+            canvas.backgroundColor = '#DDDDDD';
+            canvas.renderAll();
+          }
+          else{
+            alert('contact staff');
+          }
         }
+        $("#time-left").html('--');
         clearInterval(window.countdown);
       }
     }, 1000);
-    let imgData = canvas.toDataURL();
-    socket.emit('drawing', imgData);
+    socket.emit('drawing', canvas.toDataURL());
   }
   else {
     turnDrawOff();
   }
-}
-
-var getBorder = function(){
-
 }
 
 
@@ -78,56 +79,6 @@ function clearBoard(){
 var eraserMode = false;
 var name;
 var socket = io('/chat');
-
-var cropImage = function() {
-  var ctx = canvas.getContext('2d');
-  var w = canvas.width,
-    h = canvas.height,
-    pix = {x:[], y:[]},
-    imageData = ctx.getImageData(0,0,canvas.width,canvas.height),
-    x, y, index;
-
-  for (y = 0; y < h; y++) {
-    for (x = 0; x < w; x++) {
-      index = (y * w + x) * 4;
-      if (imageData.data[index+3] > 0) {
-
-        pix.x.push(x);
-        pix.y.push(y);
-
-      }
-    }
-  }
-  pix.x.sort(function(a,b){return a-b});
-  pix.y.sort(function(a,b){return a-b});
-  var n = pix.x.length-1;
-
-  w = pix.x[n] - pix.x[0];
-  h = pix.y[n] - pix.y[0];
-  //var cut = ctx.getImageData(pix.x[0], pix.y[0], w, h);
-
-  console.log(pix.x[0], pix.y[0], w, h);
-
-  socket.emit('imageSend', {
-    img: canvas.toDataURL({
-      left: pix.x[0],
-      top: pix.y[0],
-      width: w,
-      height: h,
-    }),
-    time: window.timeDiff
-  });
-
-
-  //canvas.width = w;
-  //canvas.height = h;
-  //ctx.putImageData(cut, 0, 0);
-
-  //var image = canvas.toDataURL();
-  //var win=window.open(image, '_blank');
-  //win.focus();
-}
-
 
 $('#yourname').html("("+teamName[UserName]+")");
 $(() => {
@@ -145,8 +96,13 @@ $(() => {
   canvas.selection = false;
   canvas.freeDrawingBrush.width = 6;
   $('#clearButton').click(event => {
-    if(canvas.isDrawingMode == false) return;
-    clearBoard();
+    if(canvas.isDrawingMode == false){
+      if(window.handSubmitted != true) window.location.reload(true);
+      return;
+    }
+    else {
+      clearBoard();
+    }
   });
   $('#sizeInput').on('input', event => {
     canvas.freeDrawingBrush.width = parseInt($('#sizeInput').val());
@@ -157,7 +113,7 @@ $(() => {
       canvas.item(canvas.size() - 1).set("selectable", false);
     }
     if(canvas.isDrawingMode == true){
-       socket.emit('drawing', canvas.toDataURL());
+       //socket.emit('drawing', canvas.toDataURL());
     }
   });
   canvas.on('mouse:over', function (e) {
@@ -174,7 +130,7 @@ $(() => {
       turnDrawOff();
       canvas.backgroundColor = null;
       socket.emit('imageSend', {img: canvas.toDataURL(), time: window.timeDiff});
-      //cropImage(canvas);
+      window.handSubmitted = true;
       //socket.emit('drawing', canvas.toDataURL());
       canvas.backgroundColor = '#DDDDDD';
       canvas.renderAll();
@@ -189,7 +145,6 @@ $(() => {
   });
 
 
-
   // ----- socket -----
   socket.on('image', data => {
     // update chat list -----
@@ -201,6 +156,7 @@ $(() => {
   });
 
   socket.on('activateDraw', data => {
+    window.handSubmitted = false;
     clearBoard();
     canvasControl(canvas, data.second);
   });
@@ -211,11 +167,7 @@ $(() => {
 		if(canvas.isDrawingMode	== false) return;
     turnDrawOff();
     socket.emit('imageSend', {img: canvas.toDataURL(), time: window.timeDiff});
-    //cropImage(canvas);
     //socket.emit('drawing', canvas.toDataURL());
   });
 
-  socket.on('refresh', d => {
-    window.location.reload(true);
-  })
 });

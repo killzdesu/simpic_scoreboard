@@ -114,9 +114,10 @@ socket.on('userChange', data => {
     $(`.screen:eq(${team.index}) > div > img`).attr('src', data.img);
   }
 });
-
+//window.disableDraw = true;
 socket.on('userDraw', data => {
-  if(window.disableDraw && window.disableDraw == true) return;
+  //return;
+  //if(window.disableDraw && window.disableDraw == true) return;
   let team = teams.find(t => t.name == data.name);
   if(team && data.img && !lockedScreen[team.index]){
     $(`.screen:eq(${team.index}) > div > img`).attr('src', data.img);

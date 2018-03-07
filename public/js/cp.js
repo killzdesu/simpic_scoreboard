@@ -113,10 +113,14 @@ $(function () {
     if (!second)
       return;
     name = 'control panel'
-    socket.emit('activate', {second, name});
-    // $("#log-cp").append("<li data-tags='activate'>* Activate for <span
-    // class=\"tag is-success\">" + second + "</span> second(s)</li>");
-    $('#second').val('');
+    if($("#time-left").text()!="--"){
+      alert('Please force finish before activate new session');
+      return;
+    }
+    else {
+      socket.emit('activate', {second, name});
+      $('#second').val('60');
+    }
     e.preventDefault();
   });
 
@@ -203,11 +207,6 @@ $(function () {
     $('#filter-button > p > a.is-link').removeClass('is-link');
     $('#filter-button-user').addClass('is-link');
     filterLogs('CLICKED_USER');
-  });
-
-  document.getElementById('rf-button').addEventListener('click', e => {
-    if(prompt('Password for refresh') == 'Jui')
-      socket.emit('refresh', true);
   });
 
   document.querySelectorAll('h4').forEach((el, index) => {
