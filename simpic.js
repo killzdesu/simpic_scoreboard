@@ -23,6 +23,9 @@ app.get(/.*user$/, function (req, res, next) {
 app.get('/cp', function (req, res, next) {
   res.sendFile(__dirname + '/control_panel.html');
 });
+app.get('/cp4', function (req, res, next) {
+  res.sendFile(__dirname + '/control_panel4.html');
+});
 app.get('/monitor', function (req, res, next) {
   res.sendFile(__dirname + '/monitor.html');
 });
@@ -91,8 +94,8 @@ var usersDraw = {};
 var monIo = io.of('/monitor');
 var clientIo = io.of('/chat');
 var cpIo = io.of('/cp');
-var scoreOutIo = io.of('/score');
-var scoreIo = io.of('/score');
+var scoreOutIo = io.of('192.168.1.136:3000/score');  // Score Out to Mo's Server
+var MoIo = io.of('/judge');  // Data in from Mo's Server
 var monSocket = void 0;
 
 var updateMonitor = function updateMonitor(name) {
@@ -144,7 +147,7 @@ clientIo.on('connection', function (socket) {
     var dd = new Date();
     cpIo.emit('image', { name: name, time: dd, timeLeft: data.time });
     clientIo.emit('image', { img: data.img, name: name });
-    scoreOutIo.emit('submit', { name: name, time: data.time});
+    // scoreOutIo.emit('submit', { name: name, time: data.time});
 
 		// console.log(chalk.red(`[${moment().format('hh:mm:ss.SSS')}]`) + ': Image emitted by ' + teamName[name]);
 		logger.info(teamName[name]+' has submitted an answer. Time left '+data.time+'s');
@@ -182,16 +185,20 @@ cpIo.on('connection', function (socket) {
 		// console.log(chalk.green("Activate drawing for " + data.second));
     logger.info("Activate drawing for " + data.second + 's');
     data.time = moment();
+    if(gvar.activateTime && moment().diff(gvar.activateTime, 'seconds') <= 5){
+      console.log(gvar.activateTime);
+      return ;
+    }
     gvar.activateTime = moment();
     gvar.activateTime.add(data.second, 'seconds');
     clientIo.emit('activateDraw', data);
     cpIo.emit('activateDraw', data);
   });
 
-  socket.on('score', function (data) {
+  socket.on('judgeMnt', function (data) {
 		// console.log('Score has been made');
     logger.info('Score has been made');
-    monIo.emit('score', data);
+    monIo.emit('judge', data);
   });
 
   socket.on('forceFinish', data=>{
@@ -208,13 +215,23 @@ cpIo.on('connection', function (socket) {
 		// console.log('Lock screen of '+ chalk.yellow(data.name));
     logger.info('Lock screen of '+ teamName[data.name]);
   });
+
+  socket.on('scoreMo', data => {
+    scoreOutIo.emit('scoreSecond', data);
+  });
+  socket.on('scoreFinal', data => {
+    scoreOutIo.emit('scoreFinal', data);
+  });
 });
 
-// ------------- Scorer --------------
+// ------------- Mo Io /judge --------------
 
-scoreIo.on('connection', function(socket){
+MoIo.on('connection', function(socket){
   socket.on('sendResult', function(data){
     cpIo.emit('sendResult', data);
+  });
+  socket.on('sendResultFinal', function(data){
+    cpIo.emit('sendResultFinal', data);
   });
 
 });

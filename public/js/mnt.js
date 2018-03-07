@@ -133,7 +133,7 @@ socket.on('allUsers', data => {
   });
 });
 
-socket.on('score', data => {
+socket.on('judge', data => {
   teams.forEach((team, index) => {
     if(data.hasOwnProperty(team.name)){
       if(data[team.name] == 1)

@@ -1,7 +1,7 @@
 // ------ create scorer ------
 teams.forEach((team, index) => {
   let checker = `
-  <div class="control has-text-centered	">
+  <div class="control has-text-centered	" ${index>3?'hidden':''}>
   <h4 class="has-text-weight-bold ">${teamName[team.name]}  <span class="tag is-info timeleft-tag" id='tag-item-${team.name}' style="display:none"></span></h4>
   <label class="radio">
     <input type="radio" name="${team.name}" value="correct">
@@ -10,6 +10,10 @@ teams.forEach((team, index) => {
   <label class="radio">
     <input type="radio" name="${team.name}" value="wrong">
     Wrong
+  </label>
+  <label class="radio">
+    <input type="radio" name="${team.name}" value="notAnswer">
+    Not Answer
   </label>
   <input type="text" class="text-score" id="text-${team.name}" placeholder="Score"/>
 </div><br/>`
@@ -152,7 +156,7 @@ $(function () {
       tmp.style.display = '';
       tmp.innerText = data.timeLeft;
     }
-    $('#text-'+data.name).val(getScoreFromTime(data.timeLeft));
+    //$('#text-'+data.name).val(getScoreFromTime(data.timeLeft));
   });
 
   socket.on('userConnect', data => {
@@ -176,16 +180,22 @@ $(function () {
     document.getElementById('time-left').innerText = "--";
   });
 
-  socket.on('sendResult', data => {
+  socket.on('sendResultFinal', data => {
     console.log(data);
-    for(var i=1;i<=7;i++){
+    for(var i=1;i<=4;i++){
       $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", false);
       $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", false);
+      $('input[type="radio"][name*="'+i+'"][value="notAnswer"]').attr("checked", false);
       if(data[i] == 1){
         $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", true);
+        $('#text-t'+i).val(1);
       }
       if(data[i] == 2){
         $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", true);
+        $('#text-t'+i).val(-1);
+      }
+      if(data[i] == 0){
+        $('input[type="radio"][name*="'+i+'"][value="notAnswer"]').attr("checked", true);
         $('#text-t'+i).val(0);
       }
     }
@@ -211,10 +221,10 @@ $(function () {
   });
   $('#emit-score-button').click(function(){
     var arr = [1];
-    for(var i=1;i<=7;i++){
+    for(var i=1;i<=4;i++){
       arr.push(parseInt($('#text-t'+i).val()));
     }
-   socket.emit('scoreMo', arr);
+   socket.emit('scoreFinal', arr);
   });
 
   $("body").on('click', "span.is-primary", function () {
