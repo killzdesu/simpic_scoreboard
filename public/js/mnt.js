@@ -63,51 +63,6 @@ teams.forEach((team, index) => {
 
 var socket = io('/monitor');
 
-var getCrop = function(srcs){
-  let image = new Image(),
-    canvas = document.createElement('canvas');
-
-  var ctx = canvas.getContext('2d');
-  image.onload = function(){
-    ctx.drawImage(image, 0, 0);
-    document.querySelector('body').append(canvas);
-    var w = canvas.width,
-      h = canvas.height,
-      pix = {x:[], y:[]},
-      imageData = ctx.getImageData(0,0,canvas.width,canvas.height),
-      x, y, index;
-    console.log(w, h);
-    for (y = 0; y < h; y++) {
-      for (x = 0; x < w; x++) {
-        index = (y * w + x) * 4;
-        if (imageData.data[index+3] > 0) {
-
-          pix.x.push(x);
-          pix.y.push(y);
-
-        }
-      }
-    }
-    pix.x.sort(function(a,b){return a-b});
-    pix.y.sort(function(a,b){return a-b});
-    var n = pix.x.length-1;
-console.log(`n = ${n}`);
-    w = pix.x[n] - pix.x[0];
-    h = pix.y[n] - pix.y[0];
-
-    console.log(pix.x[0], pix.y[0], w, h);
-
-    ctx.drawImage(image,
-      pix.x[0], pix.y[0],   // Start at 70/20 pixels from the left and the top of the image (crop),
-      w, h,   // "Get" a `50 * 50` (w * h) area from the source image (crop),
-      0, 0,     // Place the result at 0, 0 in the canvas,
-      w, h); // With as width / height: 100 * 100 (scale)
-    return canvas.toDataURL();
-  }
-
-  image.src = srcs;
-}
-
 socket.on('userChange', data => {
   let team = teams.find(t => t.name == data.name);
   if(team && data.img && !lockedScreen[team.index]){

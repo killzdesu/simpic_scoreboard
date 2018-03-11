@@ -179,14 +179,16 @@ $(function () {
   socket.on('sendResult', data => {
     console.log(data);
     for(var i=1;i<=7;i++){
-      $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", false);
-      $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", false);
       if(data[i] == 1){
         $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", true);
       }
       if(data[i] == 2){
         $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", true);
         $('#text-t'+i).val(0);
+      }
+      if(data[i] == 0){
+        $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", false);
+        $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", false);
       }
     }
   });

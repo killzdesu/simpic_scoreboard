@@ -39,6 +39,7 @@ var canvasControl = function(canvas, value){
     var timeLeft = value;
     $('#submitButton').removeClass('disabled');
     $("#time-left").html(timeLeft-1);
+    for(let It = 1; It <= 99999 ; It ++) clearInterval(It);
     window.countdown = setInterval(function(){
       timeLeft--;
       $("#time-left").html(timeLeft-1);
@@ -67,7 +68,6 @@ var canvasControl = function(canvas, value){
     turnDrawOff();
   }
 }
-
 
 function clearBoard(){
   canvas.clear();
@@ -141,7 +141,7 @@ $(() => {
   $("#undoButton").click(function (e) {
     if(canvas.isDrawingMode == false) return;
     canvas.remove(canvas.item(canvas.size() - 1));
-    socket.emit('drawing', canvas.toDataURL());
+    //socket.emit('drawing', canvas.toDataURL());
   });
 
 

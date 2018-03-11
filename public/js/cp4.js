@@ -183,9 +183,6 @@ $(function () {
   socket.on('sendResultFinal', data => {
     console.log(data);
     for(var i=1;i<=4;i++){
-      $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", false);
-      $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", false);
-      $('input[type="radio"][name*="'+i+'"][value="notAnswer"]').attr("checked", false);
       if(data[i] == 1){
         $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", true);
         $('#text-t'+i).val(1);
