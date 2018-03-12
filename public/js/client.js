@@ -25,7 +25,7 @@ var turnDrawOff = function(){
     canvas.isDrawingMode = false;
     canvas.backgroundColor = '#ddd';
     canvas.renderAll();
-    $('#submitButton').addClass('disabled');
+    $('#confirmButton').addClass('disabled');
   }
 }
 
@@ -123,7 +123,7 @@ $(() => {
     }
   });
 
-  $('#inputForm').submit(event => {
+  $('#submitButton').click(event => {
     event.preventDefault();
     if(canvas.isDrawingMode == false) return;
     if(true || window.confirm('You sure to submit?')){
@@ -142,6 +142,11 @@ $(() => {
     if(canvas.isDrawingMode == false) return;
     canvas.remove(canvas.item(canvas.size() - 1));
     //socket.emit('drawing', canvas.toDataURL());
+  });
+
+  $('#confirmButton').click(e=>{
+    if(canvas.isDrawingMode)
+      $('#confirmModal').modal('toggle');
   });
 
 

@@ -11,6 +11,10 @@ h3 {
   color: crimson;
 }
 
+#confirmModal {
+  top: 25%;
+}
+
 #font-example {
   position: fixed;
   height: 100px;
