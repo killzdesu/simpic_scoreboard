@@ -6,6 +6,7 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+var ioc = require('socket.io-client');
 var {teams, teamName} = require('./public/js/team');
 var gvar = {};
 app.set('port', 8080);
@@ -94,7 +95,7 @@ var usersDraw = {};
 var monIo = io.of('/monitor');
 var clientIo = io.of('/chat');
 var cpIo = io.of('/cp');
-var scoreOutIo = io.of('192.168.1.136:3000/score');  // Score Out to Mo's Server
+var scoreOutIo = require('socket.io-client')('http://127.0.0.1:3000/score');  // Score Out to Mo's Server
 var MoIo = io.of('/judge');  // Data in from Mo's Server
 var monSocket = void 0;
 
@@ -136,7 +137,7 @@ clientIo.on('connection', function (socket) {
     if(gvar.activateTime){
       let diff = gvar.activateTime.diff(timeNow, 'seconds', true);
       if(diff > 0){
-        clientIo.emit('activateDraw', {second: Math.floor(diff)});
+        socket.emit('activateDraw', {second: Math.floor(diff)});
       }
     }
   });
@@ -221,6 +222,7 @@ cpIo.on('connection', function (socket) {
   });
   socket.on('scoreFinal', data => {
     scoreOutIo.emit('scoreFinal', data);
+    console.log('1');
   });
 });
 
@@ -228,6 +230,7 @@ cpIo.on('connection', function (socket) {
 
 MoIo.on('connection', function(socket){
   socket.on('sendResult', function(data){
+    console.log('recieved');
     cpIo.emit('sendResult', data);
   });
   socket.on('sendResultFinal', function(data){

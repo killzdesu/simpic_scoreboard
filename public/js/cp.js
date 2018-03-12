@@ -250,6 +250,7 @@ $(function () {
         $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", false);
         $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", false);
       }
+      socket.emit('judgeMnt', {t1: 0, t2: 0, t3: 0, t4: 0, t5: 0, t6: 0, t7: 0});
     });
   });
 });
