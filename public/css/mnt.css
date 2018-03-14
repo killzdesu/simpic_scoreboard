@@ -4,8 +4,16 @@ body {
 }
 .screen > .box {
   padding: 5px;
+	margin: 2px;
   padding-top: 5px;
   height: 210px;
+}
+
+.sent-box {
+	-webkit-box-shadow: 0 1px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.5);
+	-moz-box-shadow: 0 1px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.5);
+	box-shadow: 0 1px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.5);
+
 }
 
 .box > img {

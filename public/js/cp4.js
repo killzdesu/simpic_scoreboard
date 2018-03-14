@@ -184,15 +184,15 @@ $(function () {
     console.log(data);
     for(var i=1;i<=4;i++){
       if(data[i] == 1){
-        $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", true);
+        document.querySelector('input[type="radio"][name*="'+i+'"][value="correct"]').checked = true;
         $('#text-t'+i).val(1);
       }
       if(data[i] == 2){
-        $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", true);
+        document.querySelector('input[type="radio"][name*="'+i+'"][value="wrong"]').checked = true;
         $('#text-t'+i).val(-1);
       }
       if(data[i] == 0){
-        $('input[type="radio"][name*="'+i+'"][value="notAnswer"]').attr("checked", true);
+        document.querySelector('input[type="radio"][name*="'+i+'"][value="notAnswer"]').checked = true;
         $('#text-t'+i).val(0);
       }
     }

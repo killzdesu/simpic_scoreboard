@@ -180,15 +180,15 @@ $(function () {
     console.log(data);
     for(var i=1;i<=7;i++){
       if(data[i] == 1){
-        $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", true);
+        document.querySelector('input[type="radio"][name*="'+i+'"][value="correct"]').checked = true;
       }
       if(data[i] == 2){
-        $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", true);
+        document.querySelector('input[type="radio"][name*="'+i+'"][value="wrong"]').checked = true;
         $('#text-t'+i).val(0);
       }
       if(data[i] == 0){
-        $('input[type="radio"][name*="'+i+'"][value="correct"]').attr("checked", false);
-        $('input[type="radio"][name*="'+i+'"][value="wrong"]').attr("checked", false);
+        document.querySelector('input[type="radio"][name*="'+i+'"][value="correct"]').checked = true;
+        document.querySelector('input[type="radio"][name*="'+i+'"][value="wrong"]').checked = true;
       }
     }
   });

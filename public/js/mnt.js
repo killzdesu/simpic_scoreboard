@@ -67,6 +67,7 @@ socket.on('userChange', data => {
   let team = teams.find(t => t.name == data.name);
   if(team && data.img && !lockedScreen[team.index]){
     $(`.screen:eq(${team.index}) > div > img`).attr('src', data.img);
+		$(`.screen:eq(${team.index}) > .box`).addClass('sent-box');
   }
 });
 //window.disableDraw = true;
@@ -76,6 +77,7 @@ socket.on('userDraw', data => {
   let team = teams.find(t => t.name == data.name);
   if(team && data.img && !lockedScreen[team.index]){
     $(`.screen:eq(${team.index}) > div > img`).attr('src', data.img);
+		$(`.screen:eq(${team.index}) > .box`).removeClass('sent-box');
   }
 });
 

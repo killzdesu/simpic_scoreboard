@@ -37,7 +37,7 @@ var canvasControl = function(canvas, value){
     //canvas.backgroundColor = '#FF0000';
     canvas.renderAll();
     var timeLeft = value;
-    $('#submitButton').removeClass('disabled');
+    $('#confirmButton').removeClass('disabled');
     $("#time-left").html(timeLeft-1);
     for(let It = 1; It <= 99999 ; It ++) clearInterval(It);
     window.countdown = setInterval(function(){
@@ -103,6 +103,7 @@ $(() => {
     else {
       clearBoard();
     }
+		event.target.blur();
   });
   $('#sizeInput').on('input', event => {
     canvas.freeDrawingBrush.width = parseInt($('#sizeInput').val());
@@ -139,12 +140,14 @@ $(() => {
   });
 
   $("#undoButton").click(function (e) {
+		e.target.blur();
     if(canvas.isDrawingMode == false) return;
     canvas.remove(canvas.item(canvas.size() - 1));
     //socket.emit('drawing', canvas.toDataURL());
   });
 
   $('#confirmButton').click(e=>{
+		e.target.blur();
     if(canvas.isDrawingMode)
       $('#confirmModal').modal('toggle');
   });
