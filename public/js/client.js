@@ -49,6 +49,7 @@ var canvasControl = function(canvas, value){
             turnDrawOff();
             canvas.backgroundColor = null;
             socket.emit('imageSend', {img: canvas.toDataURL(), time: 0.0});
+            $('#confirmModal').modal('hide');
             console.log('asdasd');
             //socket.emit('drawing', canvas.toDataURL());
             canvas.backgroundColor = '#DDDDDD';
