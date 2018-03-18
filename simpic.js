@@ -236,5 +236,9 @@ MoIo.on('connection', function(socket){
   socket.on('sendResultFinal', function(data){
     cpIo.emit('sendResultFinal', data);
   });
+  socket.on('judgeMnt', function (data) {
+    logger.info('Clear judge');
+    monIo.emit('judge', data);
+  });
 
 });

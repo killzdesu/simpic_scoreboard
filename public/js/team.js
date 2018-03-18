@@ -27,13 +27,13 @@ var Team = function () {
 }();
 
 var teamName = {
-  't1': "Jui",
-  't2': "P' Jay",
-  't3': "Best",
-  't4': "no one",
-  't5': "Mook",
-  't6': "Pop",
-  't7': "Big"
+  't1': "PNU",
+  't2': "CMU",
+  't3': "UNAIR",
+  't4': "DLSHSI",
+  't5': "CICM",
+  't6': "UGM",
+  't7': "MFU"
 };
 
 var teams = [];
